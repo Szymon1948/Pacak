@@ -13,6 +13,7 @@ import java.util.ArrayList;
 public class PacakActivity extends AppCompatActivity {
 
     private int czas=10;
+    private int punkty= 0;
    private TextView textViewczas;
    private TextView textViewPunkty;
 
@@ -39,16 +40,35 @@ public class PacakActivity extends AppCompatActivity {
                 if(czas>0) {
                     czas--;
                     textViewczas.setText("Czas: "+Integer.toString(czas));
+                }else{
+                    for(ImageView obraz:imageViews){
+                        obraz.setVisibility(View.INVISIBLE);
+                    }
                 }
                 handler.postDelayed(this,1000);
             }
         });
     }
-    private void pokazJedenObraz(){
-        for(ImageView obraz:imageViews){
+    private void pokazJedenObraz() {
+        for (ImageView obraz : imageViews) {
             obraz.setVisibility(View.INVISIBLE);
         }
-        int wylosowana = (int) (Math.random()*imageViews.size());
+        int wylosowana = (int) (Math.random() * imageViews.size());
         imageViews.get(wylosowana).setVisibility(View.VISIBLE);
+        if (czas > 0) {
+
+
+            imageViews.get(wylosowana).setOnClickListener(
+                    new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            punkty++;
+                            textViewPunkty.setText("Punkty " + Integer.toString(punkty));
+                            pokazJedenObraz();
+                        }
+                    }
+            );
+        }
     }
+
 }
